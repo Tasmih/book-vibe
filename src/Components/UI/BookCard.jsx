@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 
 
 const BookCard = ({ book }) => {
+  console.log(book)
   return (
     <Link
       to={`/bookDetails/${book.bookId}`}

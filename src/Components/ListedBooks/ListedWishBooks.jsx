@@ -1,26 +1,43 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BookContext } from '../../Context/BookContext';
 import BookCard from "../UI/BookCard"
 
+const ListedWishBooks = ({ sortingType }) => {
+    const { wishList } = useContext(BookContext);
+    const [filteredWishList, setFilteredWishList] = useState([]);
 
-const ListedWishBooks = () => {
-    const { wishList} = useContext(BookContext);
-                console.log(wishList,"bookContext");
-      if (wishList.length ===0){
-        return <div className='h-[50vh] bg-gray-100 flex items-center justify-center '>
-            <h2 className='font-bold text-2xl items-center'>
-                No wish list data found.
-            </h2>
-        </div>
-      }         
+    
+    useEffect(() => {
+        let data = [...wishList]; 
+
+        if (sortingType === 'pages') {
+            data.sort((a, b) => a.totalPages - b.totalPages);
+        } else if (sortingType === 'rating') {
+            data.sort((a, b) => b.rating - a.rating); // descending rating
+        }
+
+        setFilteredWishList(data);
+        
+    }, [sortingType, wishList]);
+
+    // Empty state handling
+    if (filteredWishList.length === 0) {
+        return (
+            <div className='h-[50vh] bg-gray-100 flex items-center justify-center'>
+                <h2 className='font-bold text-2xl'>
+                    No wish list data found.
+                </h2>
+            </div>
+        );
+    }
+
     return (
-         <div>
-            <div className=' grid grid-cols-1 md:grid-cols-3 gap-4'>
-     { wishList.map((book,ind)=>(
-        <BookCard key={ind} book={book}/>
-
-           ))}
-        </div>
+        <div>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                {filteredWishList.map((book, ind) => (
+                    <BookCard key={ind} book={book} />
+                ))}
+            </div>
         </div>
     );
 };

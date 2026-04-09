@@ -4,7 +4,7 @@ import BookCard from "../UI/BookCard"
 
 const ListedReadBooks = ({ sortingType }) => {
     const { readList } = useContext(BookContext);
-    const [filteredReadList, setFilteredReadList] = useState([]);
+    const [filteredReadList, setFilteredReadList] = useState(readList);
 
     
     useEffect(() => {
