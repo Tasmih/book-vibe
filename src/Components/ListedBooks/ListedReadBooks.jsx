@@ -6,19 +6,20 @@ const ListedReadBooks = ({ sortingType }) => {
     const { readList } = useContext(BookContext);
     const [filteredReadList, setFilteredReadList] = useState([]);
 
-    // Sync filteredReadList with readList and apply sorting
+    
     useEffect(() => {
-        let data = [...readList];
+        let data = [...readList]; 
 
         if (sortingType === 'pages') {
             data.sort((a, b) => a.totalPages - b.totalPages);
         } else if (sortingType === 'rating') {
-            data.sort((a, b) => b.rating - a.rating); // descending rating
-        }
+            data.sort((a, b) => b.rating - a.rating); 
+         }
 
         setFilteredReadList(data);
     }, [sortingType, readList]);
 
+    
     if (filteredReadList.length === 0) {
         return (
             <div className='h-[50vh] bg-gray-100 flex items-center justify-center'>
